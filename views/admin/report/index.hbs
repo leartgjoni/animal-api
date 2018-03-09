@@ -1,0 +1,81 @@
+<div class="container class-container">
+    <div class="row">
+
+        <div class="col-md-12">
+            <table id="table_id">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Image</th>
+                    <th>Address</th>
+                    <th>Description</th>
+                    <th>Author</th>
+                    <th>Date</th>
+                    <th>Options</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#each reports}}
+                    <tr>
+                        <td>{{#if (hasRescue rescue)}}<i class="fa fa-arrow-circle-down" aria-hidden="true" data-toggle="collapse" data-target="#rescue{{_id}}"></i>{{/if}}{{_id}}</td>
+                        <td><img src="/images/reports/{{image}}" height="30px" /></td>
+                        <td>{{address}}</td>
+                        <td>{{description}}</td>
+                        <td>{{user.email}}</td>
+                        <td>{{createdAt}}</td>
+                        <td class="form-inline">
+                            <a onclick="return confirm('Are you sure you want to delete this item?');" href="report/delete/{{_id}}" class="btn btn-sm btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                    {{#if (hasRescue rescue)}}
+                        <tr class="collapse" id="rescue{{_id}}">
+                            <td></td>
+                            <td><img src="/images/rescues/{{rescue.image}}" height="30px" /></td>
+                            <td></td>
+                            <td>{{rescue.description}}</td>
+                            <td>{{rescue.user.email}}</td>
+                            <td>{{rescue.createdAt}}</td>
+                            <td class="form-inline">
+                                <a onclick="return confirm('Are you sure you want to delete this item?');" href="report/deleteRescue/{{_id}}" class="btn btn-sm btn-danger">Delete Rescue</a>
+                            </td>
+                        </tr>
+                    {{/if}}
+                {{/each}}
+                </tbody>
+            </table>
+
+            <div class="text-center">
+                <ul class="pagination">
+                    {{#if (isFirstPage page)}}
+                        <li class="disabled">
+                            <a>< Prev</a>
+                        </li>
+                    {{else}}
+                        <li>
+                            <a href="/report?page={{add page -1}}">< Prev</a>
+                        </li>
+                    {{/if}}
+                    <li class="active"><span>{{page}}</span></li>
+                    {{#if (isLastPage total page pagination)}}
+                        <li class="disabled">
+                            <a>Next ></a>
+                        </li>
+                    {{else}}
+                        <li>
+                            <a href="/report?page={{add page 1}}">Next ></a>
+                        </li>
+                    {{/if}}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        var table = $('#table_id').DataTable({
+            "paging": false,
+            "order": []
+        });
+    });
+</script>
